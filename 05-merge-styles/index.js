@@ -9,7 +9,7 @@ const pathToBundleFile = path.join(pathToDistFolder, 'bundle.css');
 async function bundle() {
   try {
     const styleFiles = await readdir(pathToFolder, { withFileTypes: true });
-    const arrStyles = [];
+    let arrStyles = [];
 
     for (let file of styleFiles) {
       let { name } = file;

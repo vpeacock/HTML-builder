@@ -80,7 +80,7 @@ async function copyFiles(folderPath, copyFolderPath) {
 async function bundle(pathToFolder, pathToBundleFile) {
   try {
     const styleFiles = await readdir(pathToFolder, { withFileTypes: true });
-    const arrStyles = [];
+    let arrStyles = [];
 
     for (let file of styleFiles) {
       let { name } = file;
