@@ -8,10 +8,10 @@ const pathToBundleFile = path.join(pathToDistFolder, 'bundle.css');
 
 async function bundle() {
   try {
-    const output = fs.createWriteStream(pathToBundleFile);
     const styleFiles = await readdir(pathToFolder, { withFileTypes: true });
+    const arrStyles = [];
 
-    for (const file of styleFiles) {
+    for (let file of styleFiles) {
       let { name } = file;
       let fileExtension = name.split('.');
       fileExtension = fileExtension[fileExtension.length - 1];
@@ -21,7 +21,9 @@ async function bundle() {
           path.join(pathToFolder, name),
           'utf-8'
         );
-        input.pipe(output);
+        input.on('data', (chunk) => arrStyles.push(chunk));
+        const output = fs.createWriteStream(pathToBundleFile);
+        input.on('end', () => output.write(arrStyles.join('\n\n')));
       }
     }
   } catch (error) {
